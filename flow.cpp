@@ -9,6 +9,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
     bool run = 1;
     int option;
 
+    std::cin.get();
     std::cout << "Enter flow title" << std::endl;
     std::getline(std::cin, title);
 
@@ -182,4 +183,8 @@ void Flow::execute(){
     for (auto &step: steps) {
         step->execute();
     }
+}
+
+std::string Flow::getTitle() {
+    return title;
 }

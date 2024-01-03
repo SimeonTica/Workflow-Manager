@@ -15,4 +15,5 @@ public:
     Flow();
     std::chrono::system_clock::time_point getCreationTime() const;
     void execute();
+    std::string getTitle();
 };

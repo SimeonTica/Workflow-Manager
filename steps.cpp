@@ -172,6 +172,7 @@ void calculusStep::displayStepFunc() {
 void textFileInputStep::execute() {
 
     std::cout << description << std::endl;
+    std::cout << "Enter the name of the file (without extension)" << std::endl;
     std::cin >> file;
 
     writeTxt(file);
@@ -203,6 +204,7 @@ void textFileInputStep::displayStepFunc() {
 void csvFileInputStep::execute() {
 
     std::cout << description << std::endl;
+    std::cout << "Enter the name of the file (without extension)" << std::endl;
     std::cin >> file;
 
     writeCsv(file);

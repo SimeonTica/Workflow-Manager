@@ -1,12 +1,11 @@
 #include <iostream>
-#include "flow.hpp"
+#include "flowManager.hpp"
+#include <filesystem>
 
 int main(){
 
-    Flow *flow = new Flow();
+    flowManager *flowMan = new flowManager();
 
-    flow->execute();
-
-    free(flow);
+    free(flowMan);
     return 0;
 }

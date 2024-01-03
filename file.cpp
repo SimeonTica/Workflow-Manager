@@ -1,8 +1,17 @@
 #include "file.hpp"
 
+namespace fs = std::filesystem;
+
+std::filesystem::path currentFile(__FILE__);
+std::filesystem::path relative = currentFile.parent_path();
+
+std::string folderPath = relative.string() + "\\files";
+
 void File::displayCsv(std::string file){
 
-    std::ifstream f(file);
+    std::string path = folderPath + "\\" + file + ".csv";
+
+    std::ifstream f(path);
 
     if(!f.is_open()){
         std::string err = "Cannot open file";
@@ -23,7 +32,9 @@ void File::displayCsv(std::string file){
 
 void File::displayTxt(std::string file){
 
-    std::ifstream f(file);
+    std::string path = folderPath + "\\" + file + ".txt";
+
+    std::ifstream f(path);
 
     if(!f.is_open()){
         std::string err = "Cannot open file";
@@ -39,7 +50,9 @@ void File::displayTxt(std::string file){
 
 void File::writeCsv(std::string file){
 
-    std::ofstream o(file + ".csv");
+    std::string path = folderPath + "\\" + file;
+
+    std::ofstream o(path + ".csv");
 
     if(!o.is_open()){
         std::string err = "Cannot open file";
@@ -50,7 +63,8 @@ void File::writeCsv(std::string file){
     std::stringstream ss;
     std::string line, token, lineToAdd;
     std::vector<std::string> vectorLine;
-    std::cin >> line;
+    std::cin.get();
+    std::getline(std::cin, line);
     while(line != ":q"){
 
         ss << line;
@@ -63,14 +77,16 @@ void File::writeCsv(std::string file){
         lineToAdd += vectorLine.back() + "\n";
         
         o << lineToAdd;
-        std::cin >> line;
+        std::getline(std::cin, line);
     }
 
 }
 
 void File::writeTxt(std::string file){
 
-    std::ofstream o(file + ".txt");
+    std::string path = folderPath + "\\" + file;
+
+    std::ofstream o(path + ".txt");
 
     if(!o.is_open()){
         std::string err = "Cannot open file";
@@ -80,11 +96,12 @@ void File::writeTxt(std::string file){
     std::cout << "Write data line by line (write :q to finish the file)" << std::endl;
 
     std::string line;
-    std::cin >> line;
+    std::cin.get();
+    std::getline(std::cin, line);
 
     while(line != ":q"){
 
         o << line << "\n";
-        std::cin >> line;
+        std::getline(std::cin, line);
     }
 }
