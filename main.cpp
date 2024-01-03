@@ -1,9 +1,12 @@
 #include <iostream>
-#include "steps.hpp"
+#include "flow.hpp"
 
 int main(){
 
-    Steps steps;
+    Flow *flow = new Flow();
 
+    flow->execute();
+
+    free(flow);
     return 0;
 }

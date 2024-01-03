@@ -61,13 +61,22 @@ void textStep::displayStepFunc() {
     std::cout << "Title: " << title << std::endl << "Copy: " << copy << std::endl;
 }
 
-void inputStep<class T>::execute() {
+template <>
+void inputStep<std::string>::execute() {
 
     std::cout << description << std::endl;
     std::cin >> input;
 }
 
-void inputStep<class T>::writeToFile(std::string file) {
+template <>
+void inputStep<float>::execute() {
+
+    std::cout << description << std::endl;
+    std::cin >> input;
+}
+
+template <>
+void inputStep<std::string>::writeToFile(std::string file) {
 
     std::ofstream o(file, std::ios::app);
     
@@ -80,7 +89,29 @@ void inputStep<class T>::writeToFile(std::string file) {
     o.close();
 }
 
-void inputStep<class T>::displayStepFunc() {
+template <>
+void inputStep<float>::writeToFile(std::string file) {
+
+    std::ofstream o(file, std::ios::app);
+    
+    if(!o.is_open()){
+        std::string err = "Cannot open file";
+        throw err;
+    }
+
+    o << description << std::endl << input << std::endl << std::endl;
+    o.close();
+}
+
+template<>
+void inputStep<std::string>::displayStepFunc() {
+
+    std::cout << description << std::endl;
+    std::cout << input << std::endl;
+}
+
+template<>
+void inputStep<float>::displayStepFunc() {
 
     std::cout << description << std::endl;
     std::cout << input << std::endl;
@@ -214,7 +245,7 @@ void outputStep::execute(){
         throw err;
     }
 
-    o << title << std::endl << description << std::endl;
+    o << title << std::endl << std::endl << description << std::endl << std::endl;
 
     o.close();
 

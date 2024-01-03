@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "file.hpp"
 
 class Step{
@@ -58,34 +59,6 @@ public:
     friend class calculusStep;
 };
 
-template <>
-class inputStep<std::string>: public Step{
-
-private:
-    std::string input;
-    void writeToFile(std::string file) override;
-    void displayStepFunc() override;
-
-public:
-    inputStep(std::string description) : Step("", description) {};
-    void execute() override;
-    friend class calculusStep;
-};
-
-template <>
-class inputStep<float>: public Step{
-
-private:
-    float input;
-    void writeToFile(std::string file) override;
-    void displayStepFunc() override;
-
-public:
-    inputStep(std::string description) : Step("", description) {};
-    void execute() override;
-    friend class calculusStep;
-};
-
 class calculusStep: public Step{
 
 private:
@@ -99,7 +72,7 @@ private:
     void displayStepFunc() override;
 
 public:
-    calculusStep(std::string description1, std::string description2, std::string operation) : nb1(description1), nb2(description2), operation(operation) {};
+    calculusStep(std::string opDescription, std::string description1, std::string description2, std::string operation) : Step("", opDescription), nb1(description1), nb2(description2), operation(operation) {};
     void execute() override;
 };
 
@@ -121,7 +94,7 @@ private:
     std::string file;
     void writeToFile(std::string file) override;
     void displayStepFunc() override;
-    
+
 public:
     csvFileInputStep(std::string description) : Step("", description) {};
     void execute() override;
