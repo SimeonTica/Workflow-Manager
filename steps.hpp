@@ -10,6 +10,9 @@ class Step{
 protected:
     std::string title;
     std::string description;
+    int skipped = 0;
+    int error = 0;
+    bool isNumberIstringstream(const std::string& str);
 
 public:
     Step();
@@ -19,6 +22,9 @@ public:
     virtual void execute() = 0;
     virtual void writeToFile(std::string file) = 0;
     virtual void displayStepFunc() = 0;
+
+    int getSkipped();
+    int getError();
 };
 
 class titleStep: public Step{
@@ -56,14 +62,15 @@ private:
 public:
     inputStep(std::string description) : Step("", description) {};
     void execute() override;
+    getSkipped();
     friend class calculusStep;
 };
 
 class calculusStep: public Step{
 
 private:
-    inputStep<float> nb1;
-    inputStep<float> nb2;
+    inputStep<float> *nb1;
+    inputStep<float> *nb2;
 
     std::string operation;
     float product;
@@ -72,7 +79,7 @@ private:
     void displayStepFunc() override;
 
 public:
-    calculusStep(std::string opDescription, std::string description1, std::string description2, std::string operation) : Step("", opDescription), nb1(description1), nb2(description2), operation(operation) {};
+    calculusStep(std::string opDescription, std::string operation, inputStep<float> *nb1, inputStep<float> *nb2) : Step("", opDescription), operation(operation), nb1(nb1), nb2(nb2) {};
     void execute() override;
 };
 
@@ -85,6 +92,7 @@ private:
 
 public:
     textFileInputStep(std::string description) : Step("", description) {};
+    int getSkipped();
     void execute() override;
 };
 
@@ -97,6 +105,7 @@ private:
 
 public:
     csvFileInputStep(std::string description) : Step("", description) {};
+    int getSkipped();
     void execute() override;
 };
 
@@ -121,6 +130,6 @@ private:
     void displayStepFunc() override {};
 
 public:
-    outputStep(std::vector<Step *> steps, std::string title, std::string description) : steps(steps), Step(title, description) {};
+    outputStep(std::vector<Step *> steps, std::string title, std::string description) : steps(steps), file(title), Step(title, description) {};
     void execute() override;
 };

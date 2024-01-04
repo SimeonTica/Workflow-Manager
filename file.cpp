@@ -27,6 +27,7 @@ void File::displayCsv(std::string file){
             std::cout << token << " ";
         }
         std::cout << std::endl;
+        ss.clear();
     }
 }
 
@@ -61,21 +62,33 @@ void File::writeCsv(std::string file){
 
     std::cout << "Enter CSV information line by line, each field separated by space (write :q to finish the file)" << std::endl;
     std::stringstream ss;
-    std::string line, token, lineToAdd;
+    std::string line, token;
     std::vector<std::string> vectorLine;
     std::cin.get();
     std::getline(std::cin, line);
     while(line != ":q"){
 
+        std::string lineToAdd = "";
+
         ss << line;
+
         while(std::getline(ss, token, ' '))
             vectorLine.push_back(token);
         
-        for (int i = 0; i < vectorLine.size() - 1; i++)
+        int k = 0;
+
+        for (int i = 0; i < vectorLine.size() - 1; i++){
+
             lineToAdd += vectorLine[i] + ",";
+            k++;
+        }
         
-        lineToAdd += vectorLine.back() + "\n";
+        lineToAdd += vectorLine[k] + "\n";
         
+        vectorLine.clear();
+        line = "";
+        ss.clear();
+
         o << lineToAdd;
         std::getline(std::cin, line);
     }
