@@ -180,6 +180,12 @@ void inputStep<float>::displayStepFunc() {
     std::cout << input << std::endl;
 }
 
+calculusStep::~calculusStep(){
+    
+        delete nb1;
+        delete nb2;
+}
+
 void calculusStep::execute() {
 
     if(operation == "addition") {
@@ -329,7 +335,7 @@ void outputStep::execute(){
         throw err;
     }
 
-    o << title << std::endl << description << std::endl;
+    o << title << std::endl << description << std::endl << std::endl;
 
     std::cout << "Flow has been saved to " << file << std::endl;
 

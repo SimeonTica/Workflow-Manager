@@ -79,6 +79,7 @@ private:
     void displayStepFunc() override;
 
 public:
+    ~calculusStep();
     calculusStep(std::string opDescription, std::string operation, inputStep<float> *nb1, inputStep<float> *nb2) : Step("", opDescription), operation(operation), nb1(nb1), nb2(nb2) {};
     void execute() override;
 };
