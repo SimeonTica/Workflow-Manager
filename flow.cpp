@@ -273,9 +273,6 @@ int Flow::getHowManyTimesFlowWasCompleted() {
 
 void Flow::printAnalytics(){
 
-    #include <chrono>
-#include <ctime>
-#include <iostream>
 
     std::time_t creationTimeAsTimeT = std::chrono::system_clock::to_time_t(creationTime);
 
