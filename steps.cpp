@@ -87,7 +87,7 @@ void textStep::displayStepFunc() {
 
 template <>
 void inputStep<std::string>::execute() {
-
+    input = "";
     std::cout << description << std::endl;
     std::cout << "Enter input (to skip write :s)" << std::endl;
     std::cin.get();
@@ -109,7 +109,7 @@ void inputStep<std::string>::execute() {
 
 template <>
 void inputStep<float>::execute() {
-
+    input = 0;
     std::cout << description << std::endl;
     std::cout << "Enter input (to skip write :s)" << std::endl;
     std::string temp;

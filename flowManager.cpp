@@ -147,7 +147,7 @@ void flowManager::executeFlow(std::string title){
             }
             catch(const std::string e)
             {
-                std::cerr << e << '\n';
+                std::cout << e << std::endl;
             }
             return;
         }

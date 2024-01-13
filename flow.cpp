@@ -110,12 +110,16 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
                 std::cout << "Enter the second step index to be taken in consideration" << std::endl;
                 std::cin >> second;
 
+                int ok = 1;
+
                 calculus:
                 try{
                     std::cout << "Enter calculus type" << std::endl;
-                    std::cin.get();
+                    if(ok == 1){
+                        std::cin.get();
+                        ok = 0;
+                    }
                     std::getline(std::cin, calculus);
-
                     if(calculus != "addition" && calculus != "subtraction" && calculus != "multiplication" && calculus != "division" && calculus != "minimum" && calculus != "maximum")
                         throw std::string("Invalid calculus type");
 
@@ -126,6 +130,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
                     addStep(step);
                 }
                 catch(std::string err){
+                    std::cout << err << std::endl;
                     if (err == "Invalid calculus type")
                         goto calculus;
                 }
@@ -238,7 +243,11 @@ void Flow::execute(){
                 std::cin.get();
                 goto retry;
             }
-            else if(e != "Step skipped"){
+            else if(e == "Skipped"){
+                std::cout << "Press enter to continue" << std::endl;
+                std::cin.get();
+            }
+            else{
                 throw e;
             }
         }
