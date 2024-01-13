@@ -15,8 +15,8 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
 
     while (run)
     {
+        system("cls");
         std::cout << "Step options:" << std::endl;
-
         std::cout << "1. Title: add a header for the next components" << std::endl;
         std::cout << "2. Text: add a component of plain text" << std::endl;
         std::cout << "3. Input: component that lets the user add numerical or text input" << std::endl;
@@ -33,6 +33,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
         {
             case 1:
             {
+                system("cls");
                 std::string title;
                 std::string subtitle;
                 std::cout << "Enter title" << std::endl;
@@ -46,6 +47,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 2:
             {
+                system("cls");
                 std::string title;
                 std::string copy;
                 std::cin.get();
@@ -59,6 +61,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 3:
             {
+                system("cls");
                 case_3:
                 std::string description;
                 int type;
@@ -94,6 +97,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 4:
             {
+                system("cls");
                 std::string opDescription;
                 std::string calculus;
                 int first, second;
@@ -129,6 +133,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 5:
             {
+                system("cls");
                 std::string description;
                 std::cin.get();
                 std::cout << "Enter description" << std::endl;
@@ -139,6 +144,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 6:
             {
+                system("cls");
                 std::string description;
                 std::cin.get();
                 std::cout << "Enter description" << std::endl;
@@ -149,6 +155,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 7:
             {
+                system("cls");
                 int stepNumber;
                 std::cout << "Enter step number you want displayed" << std::endl;
                 std::cin >> stepNumber;
@@ -159,6 +166,7 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
             }
             case 8:
             {
+                system("cls");
                 std::string title, description;
                 std::vector<Step *> stepsToAdd;
                 std::cin.get();
@@ -187,6 +195,12 @@ Flow::Flow() : creationTime(std::chrono::system_clock::now()) {
     }
 }
 
+Flow::~Flow() {
+
+    for(auto& step: steps)
+        delete step;
+}
+
 void Flow::addStep(Step *step) {
 
     steps.push_back(step);
@@ -201,12 +215,27 @@ void Flow::execute(){
         retry:
         try
         {
-            step->execute();   
+            system("cls");
+            step->execute();
+
+            char answer;
+            std::cout << "Do you want to continue the flow? (y/n)" << std::endl;
+            std::cin >> answer;
+            std::cin.get();
+            if(answer == 'n')
+                throw std::string("Flow stopped");
         }
         catch(std::string e)
         {
             std::cout << e << '\n';
+            if(e == "Flow stopped"){
+                std::cout << "Press enter to continue" << std::endl;
+                std::cin.get();
+                std::cin.get();
+            }
             if(e == "Please enter a value" || e == "Please enter a number"){
+                std::cout << "Press enter to try again" << std::endl;
+                std::cin.get();
                 goto retry;
             }
             else if(e != "Step skipped"){
@@ -214,6 +243,10 @@ void Flow::execute(){
             }
         }
     }
+    system("cls");
+    std::cout << "Flow completed" << std::endl;
+    std::cout << "Press enter to continue" << std::endl;
+    std::cin.get();
     completed++;
 }
 
@@ -231,8 +264,19 @@ int Flow::getHowManyTimesFlowWasCompleted() {
 
 void Flow::printAnalytics(){
 
+    #include <chrono>
+#include <ctime>
+#include <iostream>
+
+    std::time_t creationTimeAsTimeT = std::chrono::system_clock::to_time_t(creationTime);
+
+    std::tm* creationTimeAsTm = std::localtime(&creationTimeAsTimeT);
+
+    char formattedTime[100];
+    std::strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", creationTimeAsTm);
+
     std::cout << "Flow title: " << title << std::endl;
-    std::cout << "Flow created at " << std::chrono::system_clock::to_time_t(creationTime) << std::endl;
+    std::cout << "Flow created at " << formattedTime << std::endl;
     std::cout << "Flow started " << started << " times" << std::endl;
     std::cout << "Flow completed " << completed << " times" << std::endl;
 
@@ -246,7 +290,10 @@ void Flow::printAnalytics(){
         i++;
     }
 
-    avgErrors = totalErrors / completed;
+    if(completed != 0)
+        avgErrors = totalErrors / completed;
+    else
+        avgErrors = 0;
 
     std::cout << "Average no errors on flow run: " << avgErrors << std::endl;
 

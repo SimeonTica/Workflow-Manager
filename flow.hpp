@@ -2,6 +2,7 @@
 
 #include "steps.hpp"
 #include <chrono>
+#include <stdlib.h>
 
 class Flow{
 
@@ -17,10 +18,12 @@ private:
 
 public:
     Flow();
+    ~Flow();
     std::chrono::system_clock::time_point getCreationTime() const;
     void execute();
     std::string getTitle();
     int getHowManyTimesFlowWasStarted();
     int getHowManyTimesFlowWasCompleted();
     void printAnalytics();
+    friend class flowManager;
 };

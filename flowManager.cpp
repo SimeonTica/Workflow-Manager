@@ -13,16 +13,14 @@ flowManager::flowManager(){
     bool run = 1;
     int option;
     while(run){
+        system("cls");
         std::cout << "Flow options:" << std::endl;
-
         std::cout << "1. Create flow" << std::endl;
         std::cout << "2. Display flows titles" << std::endl;
         std::cout << "3. Execute flow" << std::endl;
         std::cout << "4. Delete flow" << std::endl;
-        std::cout << "5. Save flow" << std::endl;
-        std::cout << "6. Load flow" << std::endl;
-        std::cout << "7. Print flow analytics" << std::endl;
-        std::cout << "8. Exit" << std::endl;
+        std::cout << "5. Print flow analytics" << std::endl;
+        std::cout << "6. Exit" << std::endl;
 
         std::cin >> option;
 
@@ -30,62 +28,62 @@ flowManager::flowManager(){
         {
             case 1:
             {
+                system("cls");
+                try{
                 createFlow();
+                }
+                catch(std::string err){
+                    std::cout << err << std::endl;
+                    std::cout << "Press enter to continue" << std::endl;
+                    std::cin.get();
+                }
                 break;
             }
             case 2:
             {
+                system("cls");
                 displayFlowsTitles();
+                std::cout << std::endl << "Press enter to continue" << std::endl;
+                std::cin.get();
+                std::cin.get();
                 break;
             }
             case 3:
             {
+                system("cls");
                 std::string title;
                 std::cin.get();
                 std::cout << "Enter flow title" << std::endl;
                 std::getline(std::cin, title);
+                try{
                 executeFlow(title);
+                }
+                catch(std::string err){
+                    std::cout << err << std::endl;
+                    std::cout << "Press enter to continue" << std::endl;
+                    std::cin.get();
+                }
                 break;
             }
             case 4:
             {
+                system("cls");
                 std::string title;
                 std::cout << "Enter flow title" << std::endl;
                 std::cin >> title;
+                try{
                 deleteFlow(title);
+                }
+                catch(std::string err){
+                    std::cout << err << std::endl;
+                    std::cout << "Press enter to continue" << std::endl;
+                    std::cin.get();
+                }
                 break;
             }
             case 5:
             {
-                case_5:
-                std::string file;
-                std::cout << "Enter flow name" << std::endl;
-                std::cin >> file;
-                try
-                {
-                    saveFlow(file);
-                }
-                catch(std::string err){
-                    std::cout << err << std::endl;
-                    goto case_5;
-                }
-                break;
-            }
-            case 6:
-            {
-                std::string file;
-                std::cout << "Enter file name" << std::endl;
-                std::cin >> file;
-                try{
-                    loadFlow(file);
-                }
-                catch(std::string error){
-                    std::cout << error << std::endl;
-                }
-                break;
-            }
-            case 7:
-            {
+                system("cls");
                 case_7:
                 std::string title;
                 std::cout << "Enter flow title" << std::endl;
@@ -93,7 +91,10 @@ flowManager::flowManager(){
                 std::getline(std::cin, title);
                 try
                 {
-                    printFlowAnalytics(title);  
+                    system("cls");
+                    printFlowAnalytics(title);
+                    std::cout << std::endl << "Press enter to continue" << std::endl;
+                    std::cin.get();
                 }
                 catch(const std::string e)
                 {
@@ -106,16 +107,16 @@ flowManager::flowManager(){
                         if(option == 'y')
                             goto case_7;
                 }
-                
                 break;
             }
-            case 8:
+            case 6:
             {
                 run = 0;
                 break;
             }
             default:
             {
+                system("cls");
                 std::cout << "Invalid option" << std::endl;
                 break;
             }
@@ -183,50 +184,4 @@ void flowManager::printFlowAnalytics(std::string title){
     }
 
     throw std::string("Flow not found");
-}
-
-void flowManager::saveFlow(std::string title){
-    std::string path = folderPath1 + "\\" + title + ".flow";
-
-    std::ofstream o(path, std::ios::binary);
-
-    if(!o.is_open()){
-        std::string err = "Cannot open file";
-        throw err;
-    }
-
-    for( auto& flow: flows){
-
-        if (flow->getTitle() == title)
-        {
-            o.write((char*)&flow, sizeof(flow));
-            o.close();
-            return;
-        }
-    }
-    throw std::string("Flow not found");
-}
-
-void flowManager::loadFlow(std::string file){
-    std::string path = folderPath1 + "\\" + file + ".flow";
-
-    std::ifstream i(path, std::ios::binary);
-
-    if(!i.is_open()){
-        std::string err = "Cannot open file";
-        throw err;
-    }
-
-    Flow *flow;
-
-    i.read((char*)&flow, sizeof(flow));
-
-    if(!i.good()){
-        std::string err = "Cannot read file";
-        throw err;
-    }
-
-    i.close();
-
-    flows.push_back(flow);
 }

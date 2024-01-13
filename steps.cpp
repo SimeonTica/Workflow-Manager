@@ -331,7 +331,7 @@ void outputStep::execute(){
 
     o << title << std::endl << description << std::endl;
 
-    std::cout << "bine";
+    std::cout << "Flow has been saved to " << file << std::endl;
 
     o.close();
 
